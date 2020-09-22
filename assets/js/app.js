@@ -87,16 +87,22 @@ const app = {
             }
         })
 
+        const progressBarText = document.querySelector('.progress-bar-percentage');
+
+        const progressBar = document.querySelector('.progressbar');
+
         if(app.totalTasks === 0) {
+            app.levelOfCompletion = 0;
+
+            progressBarText.textContent = app.levelOfCompletion;
+
+            progressBar.style.width = app.levelOfCompletion + '%';
+            
             return;
         } else {
             app.levelOfCompletion = Math.round((100 * app.activeTasks) / app.totalTasks);
 
-            const progressBarText = document.querySelector('.progress-bar-percentage');
-
             progressBarText.textContent = app.levelOfCompletion;
-
-            const progressBar = document.querySelector('.progressbar');
 
             progressBar.style.width = app.levelOfCompletion + '%';
         }
