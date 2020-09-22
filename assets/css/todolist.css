@@ -138,11 +138,13 @@ flex-direction: column;
     background-color: #fff;
     border: 2px solid cornflowerblue;
     border-radius: 10px;
-    padding: .5em;
     margin: 0 auto;
-    padding: 0 .5em;
     text-align: center;
     box-shadow: 8px 8px 15px 1px cornflowerblue;
+    overflow: hidden;
+}
+.modal p {
+    margin: 0 1.5em;
 }
 
 .close-modal {
@@ -210,6 +212,14 @@ flex-direction: column;
     word-wrap: break-word;
     max-width: 200px;
 }
+.timeout {
+    border-radius: 10px;
+    background-color: red;
+    width: 100%;
+    height: 2px;
+    transition: .3s ease-in-out;
+    animation: timeout 4s;
+}
 /* 
 .new-todolist {
     margin: 1em auto;
@@ -258,6 +268,16 @@ flex-direction: column;
     100% {
         transform: rotate(0deg);
     }
+}
+
+@keyframes timeout {
+   from {
+       width: 100%;
+   }
+
+   to {
+       width: 0%;
+   }
 }
 
 @media only screen and (min-width: 700px){

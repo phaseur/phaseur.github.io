@@ -61,6 +61,9 @@ const app = {
 
         if(app.levelOfCompletion === 100){
          modal.classList.add('visible');
+         setTimeout(() => {
+         modal.classList.remove('visible');
+         }, 4000);
         } else {
             modal.classList.remove('visible');
         }
