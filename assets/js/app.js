@@ -172,8 +172,8 @@ const app = {
     handleDeleteTasks: (e) => {
         const task = e.currentTarget.closest('.task');
         task.remove();
-        app.countActiveTasks();
         app.countTask();
+        app.countActiveTasks();
     },
     // handleClickOnNewTodolist: (e) => {
     //     const newTodolist = document.querySelector('#todolist');
