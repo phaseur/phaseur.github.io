@@ -51,6 +51,11 @@ const app = {
              task.addEventListener('click', app.handleDeleteTasks);
          })
 
+         const deleteLists = document.querySelectorAll('.delete-list');
+         deleteLists.forEach((deleteListButton) => {
+            deleteListButton.addEventListener('click', app.handleDeleteList);
+        })
+
          const newTodolistButton = document.querySelector('.new-todolist');
          newTodolistButton.addEventListener('click', app.handleClickOnNewTodolist);
 
@@ -130,6 +135,12 @@ const app = {
 
         console.log(app.tasksLists);
 
+    },
+    deleteAListOnState: (id) => {
+        const tasksLists = app.tasksLists.filter(list => list.id != id);
+        app.tasksLists = tasksLists;
+
+        console.log(app.tasksLists);
     },
     handleClickOnResetButton: (e) => {
         const currentTaskList = e.currentTarget.closest('.todolist');
@@ -262,8 +273,14 @@ const app = {
 
         app.loadEvents();
         app.countTasksList();
+    },
+    handleDeleteList: (e) => {
+        const currentTaskList = e.currentTarget.closest('.todolist');
+        const id = currentTaskList.dataset.id;
+
+        app.deleteAListOnState(id);
+        currentTaskList.remove();
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', app.init);
