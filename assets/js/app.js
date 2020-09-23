@@ -1,10 +1,18 @@
 const app = {
-    activeTodoLists: 1,
-    levelOfCompletion: 0,
-    activeTasks: 0,
-    totalTasks: 0,
+    tasksLists: [
+        {
+            id: 1,
+            activeTasks: 0,
+            totalTasks: 7,
+            levelOfCompletion: 0,
+        },
+    ],
     init: () => {
        app.loadEvents();
+    },
+    countTasksList: () => {
+        // new Property the number of lists
+        app.activeTasksLists = app.tasksLists.length;
     },
     loadEvents: () => {
          // loadevent listeners on checkbox
@@ -13,12 +21,17 @@ const app = {
              checkbox.addEventListener('click', app.handleClickOnCheckbox);
          })
          // loadeventlisteners on button reset (unchecked all tasks)
-         const resetButton = document.querySelector('.reset-button');
-         resetButton.addEventListener('click', app.handleClickOnResetButton);
+         const resetsButtons = document.querySelectorAll('.reset-button');
+         resetsButtons.forEach((resetButton) => {
+            resetButton.addEventListener('click', app.handleClickOnResetButton);
+         })
  
-         // button add
-         const addButton = document.querySelector('.add-button');
-         addButton.addEventListener('click', app.handleAddTask);
+         // buttons add
+         const addsButtons = document.querySelectorAll('.add-button');
+         addsButtons.forEach((addButton) => {
+            addButton.addEventListener('click', app.handleAddTask);
+
+         })
 
          const inputs = document.querySelectorAll('.input-task');
          inputs.forEach((input) => {
@@ -38,71 +51,110 @@ const app = {
              task.addEventListener('click', app.handleDeleteTasks);
          })
 
-        //  const newTodolistButton = document.querySelector('.new-todolist-button');
-        //  newTodolistButton.addEventListener('click', app.handleClickOnNewTodolist);
+         const newTodolistButton = document.querySelector('.new-todolist');
+         newTodolistButton.addEventListener('click', app.handleClickOnNewTodolist);
 
-         app.countTask();
-         app.countActiveTasks();
     },
     handleClickOnCheckbox: (e) => {
         e.currentTarget.classList.toggle('checked');
-        app.countActiveTasks();
+        const currentTaskList = e.currentTarget.closest('.todolist');
+
+        app.listGrooming(currentTaskList);
     },
-    handleClickOnResetButton: () => {
-        const checkboxes = document.querySelectorAll('.checkbox');
+    handleDeleteTasks: (e) => {
+        const currentTaskList = e.currentTarget.closest('.todolist');
+        const task = e.currentTarget.closest('.task');
+
+        task.remove();
+
+        app.listGrooming(currentTaskList);
+    },
+    listGrooming: (currentTaskList) => {
+        const id = currentTaskList.dataset.id;
+        const listObject = app.tasksLists.find(list => list.id == id);
+
+        let numberOfActiveTasks = 0;
+        let numberOfTasks = 0;
+        const checkboxes = currentTaskList.querySelectorAll('.checkbox');
+        checkboxes.forEach((checkbox) => {
+            numberOfTasks += 1;
+            if(checkbox.classList.contains('checked')) {
+                numberOfActiveTasks += 1;
+            }
+        })
+
+        listObject.activeTasks = numberOfActiveTasks;
+        listObject.totalTasks = numberOfTasks;
+
+        const progressBarText = currentTaskList.querySelector('.progress-bar-percentage');
+
+        const progressBar = currentTaskList.querySelector('.progressbar');
+
+        if(listObject.activeTasks == 0) {
+
+            progressBarText.textContent = 0;
+
+            progressBar.style.width = 0 + '%';
+
+            listObject.levelOfCompletion = 0;
+
+            return;
+        } else {
+            listObject.levelOfCompletion = Math.round((100 * listObject.activeTasks) / listObject.totalTasks);
+
+
+            progressBarText.textContent = listObject.levelOfCompletion;
+
+
+            progressBar.style.width = listObject.levelOfCompletion + '%';
+
+        }
+
+        if(listObject.levelOfCompletion == 100) {
+            app.handleModal(currentTaskList, listObject);
+        }
+
+        // Maj state
+        app.updateAListOnState(listObject, id);
+
+    },
+    updateAListOnState: (listObject, id) => {
+
+        const tasksLists = app.tasksLists.map((list) => {
+            if(list.id == id) {
+                list = listObject;
+            }
+            return list;
+        })
+        app.tasksLists = tasksLists;
+
+        console.log(app.tasksLists);
+
+    },
+    handleClickOnResetButton: (e) => {
+        const currentTaskList = e.currentTarget.closest('.todolist');
+        const checkboxes = currentTaskList.querySelectorAll('.checkbox');
         checkboxes.forEach((checkbox) => {
             checkbox.classList.remove('checked');
         })
-        app.countTask();
-        app.countActiveTasks();
+        app.listGrooming(currentTaskList);
     },
-    handleModal: () => {
-        const modal = document.querySelector('.modal');
+    handleModal: (currentTaskList, listObject) => {
+        const modal = currentTaskList.querySelector('.modal');
 
-        if(app.levelOfCompletion === 100){
+        if(listObject.levelOfCompletion === 100){
          modal.classList.add('visible');
+         setTimeout(() => {
+            modal.classList.remove('visible');
+            }, 4000);
         } else {
             modal.classList.remove('visible');
         }
         if(modal.classList.contains('visible')){
-            const closeModal = document.querySelector('.close-modal');
+            const closeModal = currentTaskList.querySelector('.close-modal');
             closeModal.addEventListener('click', () => {
                 modal.classList.remove('visible');
             });
-        }
-    },
-    countTask: () => {
-        app.totalTasks = 0;
-        const checkboxes = document.querySelectorAll('.checkbox');
-        checkboxes.forEach((checkbox) => {
-            app.totalTasks += 1;
-        })
-    },
-    countActiveTasks: () => {
-        app.activeTasks = 0;
-        const checkboxes = document.querySelectorAll('.checkbox');
-        checkboxes.forEach((checkbox) => {
-            if(checkbox.classList.contains('checked')) {
-                app.activeTasks += 1;
-            }
-        })
-
-        if(app.totalTasks === 0) {
-            return;
-        } else {
-            app.levelOfCompletion = Math.round((100 * app.activeTasks) / app.totalTasks);
-
-            const progressBarText = document.querySelector('.progress-bar-percentage');
-
-            progressBarText.textContent = app.levelOfCompletion;
-
-            const progressBar = document.querySelector('.progressbar');
-
-            progressBar.style.width = app.levelOfCompletion + '%';
-        }
-
-        if(app.levelOfCompletion === 100) {
-            app.handleModal();
         }
     },
     handleModifyTask: (e) => {
@@ -147,19 +199,33 @@ const app = {
             input.style.display = 'none';
             taskName.style.display = 'block';
         }
-
     },
-    handleAddTask: () => {
+    handleAddTask: (e) => {
+        const currentTaskList = e.currentTarget.closest('.todolist');
+        const id = currentTaskList.dataset.id;
+        
+        const tasksLists = app.tasksLists.map((list) => {
+            if(list.id == id) {
+                list.totalTasks += 1;
+            }
+            return list;
+        })
+
+        app.tasksLists = tasksLists;
+
+        console.log(app.tasksLists);
+
         const template = document.querySelector('#task');
         const clone = document.importNode(template.content, true);
         const taskName = clone.querySelector('.task__content__name > p');
         taskName.style.display = 'none';
-
         const inputTask = clone.querySelector('.input-task');
         inputTask.style.display = 'block';
         inputTask.value = taskName.textContent;
-        const tasks = document.querySelector('.todolist');
-        tasks.appendChild(clone);
+        
+
+
+        currentTaskList.appendChild(clone);
 
         app.loadEvents();
         inputTask.focus();
@@ -169,19 +235,35 @@ const app = {
         const taskName = input.nextElementSibling;
         taskName.textContent = input.value;
     },
-    handleDeleteTasks: (e) => {
-        const task = e.currentTarget.closest('.task');
-        task.remove();
-        app.countActiveTasks();
-        app.countTask();
-    },
-    // handleClickOnNewTodolist: (e) => {
-    //     const newTodolist = document.querySelector('#todolist');
-    //     const todolist = document.importNode(newTodolist.content, true);
+    handleClickOnNewTodolist: (e) => {
+        let id = 1;
+        app.tasksLists.forEach((list) => {
+            if(list.id >= id) {
+                id = list.id + 1;
+            }
+        })
+        const newTaskList = {
+            id,
+            activeTasks: 0,
+            totalTasks: 0,
+            levelOfCompletion: 0,
+        }
 
-    //     const todolistsContainer = document.querySelector('.todolists-container');
-    //     todolistsContainer.appendChild(todolist);
-    // }
+        app.tasksLists.push(newTaskList);
+
+        const newTodolist = document.querySelector('#todolist');
+        const todolist = document.importNode(newTodolist.content, true);
+        const div = todolist.querySelector('.todolist')
+        div.dataset.id = id;
+
+        const todolistsContainer = document.querySelector('.todolists-container');
+        todolistsContainer.appendChild(todolist);
+
+
+        app.loadEvents();
+        app.countTasksList();
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', app.init);

@@ -14,7 +14,7 @@
 <body>
     <main class="main-page">
       <div class="todolists-container">
-        <div class="todolist">
+        <div class="todolist" data-id="1">
             <div class="progress-bar-container">
               <p>Niveau de complétion <span class="progress-bar-percentage">0</span>%</p>
               <div class="progressbar"></div>
@@ -22,6 +22,7 @@
             <div class="modal">
               <span class="close-modal"></span>
               <p>Félicitations ! Vous avez rempli toutes les tâches de cette liste.</p>
+              <div class="timeout"></div>
             </div>
             <div class="buttons">
               <button class="button reset-button">Reset</button>
@@ -109,12 +110,13 @@
                     <p class="task-name">Tache 7</p>
                   </div>
                   <i class="fa fa-trash delete-task"></i>
+                </div>
             </div>
           </div>
-      </div>
-      <!-- <div class="new-todolist">
+      </div> 
+      <div class="new-todolist">
         <span class="new-todolist-button"></span>
-      </div> -->
+      </div>
     </main>
     <template id="task">
       <div class="task">
@@ -139,6 +141,7 @@
         <div class="modal">
           <span class="close-modal"></span>
           <p>Félicitations ! Vous avez rempli toutes les tâches de cette liste.</p>
+          <div class="timeout"></div>
         </div>
         <div class="buttons">
           <button class="button reset-button">Reset</button>
