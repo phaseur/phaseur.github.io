@@ -62,10 +62,10 @@ const app = {
     },
     handleClickOnCheckbox: (e) => {
         e.currentTarget.classList.toggle('checked');
-        const checkboxContainer = e.currentTarget.closest('.task-checkbox');
-        const text = checkboxContainer.nextElementSibling;
-        const name = text.querySelector('.task-name');
-        name.classList.toggle('done');
+        // const checkboxContainer = e.currentTarget.closest('.task-checkbox');
+        // const text = checkboxContainer.nextElementSibling;
+        // const name = text.querySelector('.task-name');
+        // name.classList.toggle('done');
 
         const currentTaskList = e.currentTarget.closest('.todolist');
 
