@@ -5,8 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
-    js: './src/assets/js/app.js',
-    css: './src/assets/css/todolist.css',
+    js: './docs/assets/js/app.js',
+    css: './docs/assets/css/todolist.css',
   },
   plugins: [
     // this plugins is cleaning the dist folder while we make a new build
@@ -14,7 +14,7 @@ module.exports = {
     // this plugins generate his own index.html with all the connected dependecies js files above
     new HtmlWebpackPlugin({
       title: 'Production',
-      template: 'src/index.html',
+      template: 'docs/index.html',
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
