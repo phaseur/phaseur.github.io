@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="./assets/css/todolist.css"> on vire les balises car webpack les crée tout seul -->
+    <link rel="stylesheet" href="./assets/css/todolist.css">
+    <!--en mode dev bug car webpack compile tout seul les chemins, ce fichier sera 404 -->
   </head>
 <body>
     <main class="main-page">
@@ -151,7 +152,8 @@
       </div>
     </template>
     </footer>
-    <!-- <script src="./assets/js/app.js"></script> on vire les balises car webpack crée les balise slui meme -->
+    <script src="./assets/js/app.js"></script>
+    <!--en mode dev bug car webpack compile tout seul les chemins, ce fichier sera 404 -->
 </body>
 </html>
 
