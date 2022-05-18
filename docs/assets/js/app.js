@@ -2,13 +2,14 @@ const app = {
     tasksLists: [
         {
             id: 1,
+            listName: '',
             activeTasks: 0,
-            totalTasks: 7,
+            totalTasks: 0,
             levelOfCompletion: 0,
         },
     ],
     init: () => {
-       app.loadEvents();
+        app.loadEvents();
     },
     countTasksList: () => {
         // new Property the number of lists
@@ -16,48 +17,48 @@ const app = {
     },
     loadEvents: () => {
          // loadevent listeners on checkbox
-         const checkboxes = document.querySelectorAll('.checkbox');
-         checkboxes.forEach((checkbox) => {
-             checkbox.addEventListener('click', app.handleClickOnCheckbox);
-         })
+        const checkboxes = document.querySelectorAll('.checkbox');
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('click', app.handleClickOnCheckbox);
+        })
          // loadeventlisteners on button reset (unchecked all tasks)
-         const resetsButtons = document.querySelectorAll('.reset-button');
-         resetsButtons.forEach((resetButton) => {
-            resetButton.addEventListener('click', app.handleClickOnResetButton);
-         })
- 
-         // buttons add
-         const addsButtons = document.querySelectorAll('.add-button');
-         addsButtons.forEach((addButton) => {
-            addButton.addEventListener('click', app.handleAddTask);
-
-         })
-
-         const inputs = document.querySelectorAll('.input-task');
-         inputs.forEach((input) => {
-             input.addEventListener('change', app.handleInputTask);
-             input.addEventListener('blur', app.leaveInputTask);
-             input.addEventListener('keydown', app.handleInputKeyboard);
-
-         })
- 
-         const taskNames = document.querySelectorAll('.task-name');
-         taskNames.forEach((task) => {
-             task.addEventListener('click', app.handleModifyTask);
-         })
-
-         const taskDelete = document.querySelectorAll('.delete-task');
-         taskDelete.forEach((task) => {
-             task.addEventListener('click', app.handleDeleteTasks);
-         })
-
-         const deleteLists = document.querySelectorAll('.delete-list');
-         deleteLists.forEach((deleteListButton) => {
-            deleteListButton.addEventListener('click', app.handleDeleteList);
+        const resetsButtons = document.querySelectorAll('.reset-button');
+        resetsButtons.forEach((resetButton) => {
+        resetButton.addEventListener('click', app.handleClickOnResetButton);
         })
 
-         const newTodolistButton = document.querySelector('.new-todolist');
-         newTodolistButton.addEventListener('click', app.handleClickOnNewTodolist);
+         // buttons add
+        const addsButtons = document.querySelectorAll('.add-button');
+        addsButtons.forEach((addButton) => {
+        addButton.addEventListener('click', app.handleAddTask);
+
+        })
+
+        const inputs = document.querySelectorAll('.input-task');
+        inputs.forEach((input) => {
+            input.addEventListener('change', app.handleInputTask);
+            input.addEventListener('blur', app.leaveInputTask);
+            input.addEventListener('keydown', app.handleInputKeyboard);
+
+        })
+
+        const taskNames = document.querySelectorAll('.task-name');
+        taskNames.forEach((task) => {
+            task.addEventListener('click', app.handleModifyTask);
+        })
+
+        const taskDelete = document.querySelectorAll('.delete-task');
+        taskDelete.forEach((task) => {
+            task.addEventListener('click', app.handleDeleteTasks);
+        })
+
+        const deleteLists = document.querySelectorAll('.delete-list');
+        deleteLists.forEach((deleteListButton) => {
+        deleteListButton.addEventListener('click', app.handleDeleteList);
+    })
+
+        const newTodolistButton = document.querySelector('.new-todolist');
+        newTodolistButton.addEventListener('click', app.handleClickOnNewTodolist);
 
     },
     handleClickOnCheckbox: (e) => {
@@ -159,8 +160,8 @@ const app = {
         const modal = currentTaskList.querySelector('.modal');
 
         if(listObject.levelOfCompletion === 100){
-         modal.classList.add('visible');
-         setTimeout(() => {
+        modal.classList.add('visible');
+        setTimeout(() => {
             modal.classList.remove('visible');
             }, 4000);
         } else {
@@ -185,24 +186,24 @@ const app = {
     handleInputKeyboard: (e) => {
         if (e.defaultPrevented) {
             return;
-          }
-        
-          switch (e.key) {
+        }
+    
+        switch (e.key) {
             case "Enter":
-                const input = e.currentTarget;
-                const taskName = input.nextElementSibling;
-                if(input.value === ''){
-                    taskName.textContent = 'Nouvelle tâche';
-                    input.style.display = 'none';
-                    taskName.style.display = 'block';
-                } else {
-                    input.style.display = 'none';
-                    taskName.style.display = 'block';
-                }
-              break;
-            default:
-              return; // Quitter lorsque cela ne gère pas l'événement touche.
-          }
+            const input = e.currentTarget;
+            const taskName = input.nextElementSibling;
+            if(input.value === ''){
+                taskName.textContent = 'Nouvelle tâche';
+                input.style.display = 'none';
+                taskName.style.display = 'block';
+            } else {
+                input.style.display = 'none';
+                taskName.style.display = 'block';
+            }
+            break;
+        default:
+            return; // Quitter lorsque cela ne gère pas l'événement touche.
+        }
     },
     leaveInputTask: (e) => {
         const input = e.currentTarget;

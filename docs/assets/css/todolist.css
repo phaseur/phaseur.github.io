@@ -50,9 +50,9 @@ body {
 .task {
     position: relative;
     margin: 1em auto;
-    padding: 0 2em;
+    padding: 0 10px;
     max-width: 300px;
-    min-height: 50px;
+    min-height: 80px;
     border: 1px solid cornflowerblue;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
@@ -211,6 +211,7 @@ body {
     padding: .5em;
     font-weight: bold;
     max-width: 200px;
+    height: 100%;
 }
 
 .delete-task {
@@ -218,9 +219,10 @@ body {
     top: 15px;
     right: 10px;
     cursor: pointer;
+    transform: scale(1.4);
 }
 .delete-task:hover {
-   transform: scale(1.3);
+   transform: scale(1.5);
    transition: .2s ease-in-out;
 }
 
@@ -266,9 +268,10 @@ body {
 }
 .delete-list {
     cursor: pointer;
+    transform: scale(1.5);
 }
 .delete-list:hover {
-   transform: scale(1.3);
+   transform: scale(1.6);
    transition: .2s ease-in-out;
 }
 
